@@ -28,7 +28,7 @@ namespace University_Management_System.Controllers
             var branch = _branchRepository.GetBranch(branchName);
             if(branch == null) 
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
             }
             return Ok(branch);
         }
@@ -39,7 +39,7 @@ namespace University_Management_System.Controllers
             var branch = _branchRepository.RemoveBranch(branchName);
             if (branch == null)
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
             }
             return Ok(branch);
         }

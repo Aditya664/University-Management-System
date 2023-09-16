@@ -14,7 +14,7 @@ namespace University_Management_System.Controllers
 
         public StudentController(StudentRepository studentRepository)
         {
-            this.studentRepository = studentRepository;
+            this.studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository)); ;
         }
 
         [HttpGet]
@@ -27,31 +27,27 @@ namespace University_Management_System.Controllers
         public IActionResult PostStudents([FromBody] StudentDto student)
         {
             var newStud = studentRepository.AddStudent(student);
-            if(newStud == null)
-            {
-                return BadRequest("Something went wrong");
-            }
             return CreatedAtAction(nameof(GetStudentById), new { id = newStud.Id }, newStud);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = nameof(GetStudentById))]
         public IActionResult GetStudentById(int id)
         {
             var isStudentExist = studentRepository.FindById(id);
             if(isStudentExist == null)
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
             }
             return Ok(isStudentExist);
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("{name}", Name = nameof(GetStudentByName))]
         public IActionResult GetStudentByName(string name)
         {
             var isStudentExist = studentRepository.FindByName(name);
             if (isStudentExist == null)
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
             }
             return Ok(isStudentExist);
         }
@@ -62,7 +58,7 @@ namespace University_Management_System.Controllers
             var student = studentRepository.DeleteStudent(id);
             if(student == null)
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
             }
             return CreatedAtAction(nameof(GetStudentById), new { id = student.Id }, student);
         }

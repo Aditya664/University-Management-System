@@ -28,7 +28,7 @@ namespace University_Management_System.Controllers
             var course = _courseRepository.GetCourse(courseName);
             if(course == null) 
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
             }
             return Ok(course);
         }
@@ -39,7 +39,8 @@ namespace University_Management_System.Controllers
             var course = _courseRepository.RemoveCourse(courseName);
             if (course == null)
             {
-                return BadRequest("Something went wrong");
+                return NotFound();
+
             }
             return Ok(course);
         }
