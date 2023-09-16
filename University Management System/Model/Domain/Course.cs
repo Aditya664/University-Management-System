@@ -2,7 +2,7 @@
 
 namespace University_Management_System.Model.Domain
 {
-    public class Course
+    public class Course 
     {
         [Key]
         public string CourseName { get; set; }

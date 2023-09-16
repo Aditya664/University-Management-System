@@ -14,6 +14,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<LoginRepository>();
 builder.Services.AddScoped<StudentRepository>();
+builder.Services.AddScoped<CourseRepository>();
+builder.Services.AddScoped<BranchRepository>();
 
 builder.Services.AddDbContext<UniversityDbContext>(options =>
 {
