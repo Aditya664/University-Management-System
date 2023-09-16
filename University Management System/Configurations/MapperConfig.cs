@@ -10,6 +10,8 @@ namespace University_Management_System.Configurations
         {
             CreateMap<Student,
                 StudentDto>().ReverseMap();
+            CreateMap<StudentResponseDto, StudentDto>().ReverseMap();
+            CreateMap<Student,StudentResponseDto>().ReverseMap();
            
         }
     }

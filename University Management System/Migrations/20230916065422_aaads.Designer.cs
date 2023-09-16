@@ -12,8 +12,8 @@ using University_Management_System.Data;
 namespace University_Management_System.Migrations
 {
     [DbContext(typeof(UniversityDbContext))]
-    [Migration("20230915193310_anew")]
-    partial class anew
+    [Migration("20230916065422_aaads")]
+    partial class aaads
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

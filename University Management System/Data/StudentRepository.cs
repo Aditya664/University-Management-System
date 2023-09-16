@@ -9,57 +9,61 @@ namespace University_Management_System.Data
         private readonly UniversityDbContext universityDbContext;
         private readonly IMapper _mapper;
 
-        public StudentRepository(UniversityDbContext universityDbContext,IMapper mapper)
+        public StudentRepository(UniversityDbContext universityDbContext, IMapper mapper)
         {
             this._mapper = mapper;
             this.universityDbContext = universityDbContext;
         }
 
-        public List<Student> GetAll()
+        public List<StudentResponseDto> GetAll()
         {
-            return universityDbContext.Students.ToList();
+            var students = universityDbContext.Students.ToList();
+            var studentResponseList = _mapper.Map<List<StudentResponseDto>>(students);
+            return studentResponseList;
         }
 
-        public List<Student> FindByName(string name)
+        public List<StudentResponseDto> FindByName(string name)
         {
             var student = universityDbContext.Students.Where(x => x.Name == name.ToLower());
-            if(student == null)
+            if (student == null)
             {
                 return null;
             }
-            return student.ToList();
+            var studentResponse = _mapper.Map<List<StudentResponseDto>>(student);
+            return studentResponse;
         }
 
-        public Student FindById(int id)
+        public StudentResponseDto FindById(int id)
         {
             var student = universityDbContext.Students.FirstOrDefault(x => x.Id == id);
             if (student == null)
             {
                 return null;
             }
-            return student;
+            return _mapper.Map<StudentResponseDto>(student);
         }
 
-        public Student AddStudent(StudentDto student)
+        public StudentResponseDto AddStudent(StudentDto student)
         {
-           var newStudent = _mapper.Map<Student>(student);
-           universityDbContext.Students.Add(newStudent);
-           universityDbContext.SaveChanges();
-           return newStudent;
+            var newStudent = _mapper.Map<Student>(student);
+            newStudent.RollNo = GenerateUniqueRollNo();
+            universityDbContext.Students.Add(newStudent);
+            universityDbContext.SaveChanges();
+            return _mapper.Map<StudentResponseDto>(newStudent);
         }
 
-        public Student UpdateStudent(int id,StudentDto student)
+        public StudentResponseDto UpdateStudent(int id, StudentDto student)
         {
-            var oldStudent = universityDbContext.Students.FirstOrDefault(x => x.Id==id);
-            if(oldStudent == null)
+            var oldStudent = universityDbContext.Students.FirstOrDefault(x => x.Id == id);
+            if (oldStudent == null)
             {
                 return null;
             }
             _mapper.Map(student, oldStudent);
             universityDbContext.SaveChanges();
-            return oldStudent;
+            return _mapper.Map<StudentResponseDto>(oldStudent);
         }
-        public Student DeleteStudent(int id)
+        public StudentResponseDto DeleteStudent(int id)
         {
             var oldStudent = universityDbContext.Students.FirstOrDefault(x => x.Id == id);
             if (oldStudent == null)
@@ -68,7 +72,13 @@ namespace University_Management_System.Data
             }
             universityDbContext.Students.Remove(oldStudent);
             universityDbContext.SaveChanges();
-            return oldStudent;
+            return _mapper.Map<StudentResponseDto>(oldStudent);
+        }
+
+        private int GenerateUniqueRollNo()
+        {
+            var random = new Random();
+            return random.Next(10000, 99999);
         }
 
     }

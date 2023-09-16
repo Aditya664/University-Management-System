@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace University_Management_System.Migrations
 {
     /// <inheritdoc />
-    public partial class anew : Migration
+    public partial class aaads : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
