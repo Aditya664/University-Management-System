@@ -8,7 +8,7 @@ namespace University_Management_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController : Controller
     {
         private readonly LoginRepository _loginRepository;
 

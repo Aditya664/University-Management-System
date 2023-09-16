@@ -7,7 +7,7 @@ namespace University_Management_System.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CourseController : ControllerBase
+    public class CourseController : Controller
     {
         private readonly CourseRepository _courseRepository;
 

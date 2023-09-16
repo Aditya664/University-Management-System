@@ -12,7 +12,9 @@ namespace University_Management_System.Configurations
                 StudentDto>().ReverseMap();
             CreateMap<StudentResponseDto, StudentDto>().ReverseMap();
             CreateMap<Student,StudentResponseDto>().ReverseMap();
-           
+            CreateMap<int, RollNoDto>()
+           .ForMember(dest => dest.RollNo, opt => opt.MapFrom(src => src));
+
         }
     }
 }

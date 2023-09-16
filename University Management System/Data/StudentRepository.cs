@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using University_Management_System.Model.Domain;
 using University_Management_System.Model.DTO;
 
@@ -33,14 +34,30 @@ namespace University_Management_System.Data
             return studentResponse;
         }
 
-        public StudentResponseDto FindById(int id)
+        public StudentResponseDto FindByIdOrRollNo(string operationOn,int id)
         {
-            var student = universityDbContext.Students.FirstOrDefault(x => x.Id == id);
-            if (student == null)
+            if(operationOn == "RollNo")
+            {
+                var student = universityDbContext.Students.FirstOrDefault(x => x.RollNo == id);
+                if (student == null)
+                {
+                    return null;
+                }
+                return _mapper.Map<StudentResponseDto>(student);
+            }
+            else if(operationOn == "Id")
+            {
+                var student = universityDbContext.Students.FirstOrDefault(x => x.Id == id);
+                if (student == null)
+                {
+                    return null;
+                }
+                return _mapper.Map<StudentResponseDto>(student);
+            }
+            else
             {
                 return null;
             }
-            return _mapper.Map<StudentResponseDto>(student);
         }
 
         public StudentResponseDto AddStudent(StudentDto student)
@@ -73,6 +90,15 @@ namespace University_Management_System.Data
             universityDbContext.Students.Remove(oldStudent);
             universityDbContext.SaveChanges();
             return _mapper.Map<StudentResponseDto>(oldStudent);
+        }
+
+        public List<RollNoDto> GetAllRollNumbers()
+        {
+            var rollNos = universityDbContext.Students
+                .Select(student => student.RollNo)
+                .ToList();
+
+            return _mapper.Map<List<RollNoDto>>(rollNos);
         }
 
         private int GenerateUniqueRollNo()

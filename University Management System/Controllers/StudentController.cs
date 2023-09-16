@@ -17,10 +17,16 @@ namespace University_Management_System.Controllers
             this.studentRepository = studentRepository ?? throw new ArgumentNullException(nameof(studentRepository)); ;
         }
 
-        [HttpGet]
+        [HttpGet("students")]
         public IActionResult GetStudents()
         {
             return Ok(studentRepository.GetAll());
+        }
+
+        [HttpGet("rollNumber")]
+        public IActionResult GetAllRollNo() 
+        {
+            return Ok(studentRepository.GetAllRollNumbers());
         }
 
         [HttpPost]
@@ -31,9 +37,9 @@ namespace University_Management_System.Controllers
         }
 
         [HttpGet("{id:int}", Name = nameof(GetStudentById))]
-        public IActionResult GetStudentById(int id)
+        public IActionResult GetStudentById(string operationOn, int id)
         {
-            var isStudentExist = studentRepository.FindById(id);
+            var isStudentExist = studentRepository.FindByIdOrRollNo(operationOn,id);
             if(isStudentExist == null)
             {
                 return NotFound();
