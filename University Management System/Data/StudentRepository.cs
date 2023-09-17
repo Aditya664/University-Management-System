@@ -63,7 +63,6 @@ namespace University_Management_System.Data
         public StudentResponseDto AddStudent(StudentDto student)
         {
             var newStudent = _mapper.Map<Student>(student);
-            newStudent.RollNo = GenerateUniqueRollNo();
             universityDbContext.Students.Add(newStudent);
             universityDbContext.SaveChanges();
             return _mapper.Map<StudentResponseDto>(newStudent);
@@ -99,12 +98,6 @@ namespace University_Management_System.Data
                 .ToList();
 
             return _mapper.Map<List<RollNoDto>>(rollNos);
-        }
-
-        private int GenerateUniqueRollNo()
-        {
-            var random = new Random();
-            return random.Next(10000, 99999);
         }
 
     }

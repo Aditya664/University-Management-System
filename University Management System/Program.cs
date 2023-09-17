@@ -17,6 +17,7 @@ builder.Services.AddScoped<StudentRepository>();
 builder.Services.AddScoped<CourseRepository>();
 builder.Services.AddScoped<BranchRepository>();
 
+
 builder.Services.AddDbContext<UniversityDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("connString"));
@@ -31,7 +32,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors(x => x
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
 app.UseAuthorization();
 
 app.MapControllers();
